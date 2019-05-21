@@ -519,12 +519,18 @@ public class BeanDefinitionParserDelegate {
 			parseBeanDefinitionAttributes(ele, beanName, containingBean, bd);
 			bd.setDescription(DomUtils.getChildElementValueByTagName(ele, DESCRIPTION_ELEMENT));
 
+			// 解析Meta元数据 当需要使用里面的信息时可以通过 key 获取
 			parseMetaElements(ele, bd);
+			// 解析<lookup-method>标签 示例查看 com.spring.demo.lookupmethod
 			parseLookupOverrideSubElements(ele, bd.getMethodOverrides());
+			// 解析<replaced-method>标签  示例查看 com.spring.demo.replacemethod
 			parseReplacedMethodSubElements(ele, bd.getMethodOverrides());
 
+			// 解析<constructor-arg>标签 示例查看 com.spring.demo.constructorarg
 			parseConstructorArgElements(ele, bd);
+			// 解析<property>标签
 			parsePropertyElements(ele, bd);
+			// 解析<qualifier>标签
 			parseQualifierElements(ele, bd);
 
 			bd.setResource(this.readerContext.getResource());
