@@ -226,6 +226,15 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 
 	/**
 	 * Return an instance, which may be shared or independent, of the specified bean.
+	 *
+	 * doGetBean中最核心的方法有下面几个
+	 * 1. getObjectForBeanInstance(...)
+	 * 		* 处理工厂bean类型的实例，通过该方法从工厂bean中返回真正的Bean对象
+	 * 2. createBean(...)
+	 * 		* 根据给定的BeanDefinition和args实例化Bean对象
+	 * 		* 所有Bean实例的创建都通过该方法实现
+	 *
+	 *
 	 * @param name the name of the bean to retrieve
 	 * @param requiredType the required type of the bean to retrieve
 	 * @param args arguments to use when creating a bean instance using explicit arguments
@@ -257,9 +266,14 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 					logger.trace("Returning cached instance of singleton bean '" + beanName + "'");
 				}
 			}
+			// 该方法主要是处理工厂bean类型的实例，通过该方法从工厂bean中返回真正的bean
+			// 如果是普通bean的话直接返回实例
 			bean = getObjectForBeanInstance(sharedInstance, name, beanName, null);
 		}
 
+		// 从单例缓存中获取不到，那么该bean有两种情况
+		// 1. 该bean是单例模式，但还没初始化完成
+		// 2. 该bean是非单例模式
 		else {
 			// Fail if we're already creating this bean instance:
 			// We're assumably within a circular reference.
@@ -310,6 +324,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 							throw new BeanCreationException(mbd.getResourceDescription(), beanName,
 									"Circular depends-on relationship between '" + beanName + "' and '" + dep + "'");
 						}
+						// 对依赖进行注册
 						registerDependentBean(dep, beanName);
 						try {
 							getBean(dep);
@@ -1739,6 +1754,9 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				// Register a DisposableBean implementation that performs all destruction
 				// work for the given bean: DestructionAwareBeanPostProcessors,
 				// DisposableBean interface, custom destroy method.
+
+				// 将Object类型的bean封装成DisposableBean类型的bean
+				// 用于提供bean的销毁方法
 				registerDisposableBean(beanName,
 						new DisposableBeanAdapter(bean, beanName, mbd, getBeanPostProcessors(), acc));
 			}
