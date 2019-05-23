@@ -1667,11 +1667,16 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 		// Now we have the bean instance, which may be a normal bean or a FactoryBean.
 		// If it's a FactoryBean, we use it to create a bean instance, unless the
 		// caller actually wants a reference to the factory.
+		// 如果是FactoryBean类型或者是属于FactoryBean的引用类型(naem带&符号)
+		// 若是&name，说明是想获取FactoryBean工厂bean类型这个实例
+		// 而不是获取工厂bean中getObject得到的实例
 		if (!(beanInstance instanceof FactoryBean) || BeanFactoryUtils.isFactoryDereference(name)) {
 			return beanInstance;
 		}
 
+		// 如果是要通过工厂bean的getObject获取实例
 		Object object = null;
+		// 先从缓存中看能否获取
 		if (mbd == null) {
 			object = getCachedObjectForFactoryBean(beanName);
 		}
@@ -1683,6 +1688,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				mbd = getMergedLocalBeanDefinition(beanName);
 			}
 			boolean synthetic = (mbd != null && mbd.isSynthetic());
+			// 通过FactoryBean获取bean对象
 			object = getObjectFromFactoryBean(factory, beanName, !synthetic);
 		}
 		return object;

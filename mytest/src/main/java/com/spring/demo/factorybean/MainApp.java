@@ -9,5 +9,9 @@ public class MainApp {
 		// 调用工厂bean: CarFactory 生成Car实例对象
 		Car car = (Car) context.getBean("carFactory");
 		car.CarInfo();
+
+		// 通过&carFactory获取工厂bean
+		CarFactory factory = (CarFactory) context.getBean("&carFactory");
+		factory.carFactoryInfo();
 	}
 }

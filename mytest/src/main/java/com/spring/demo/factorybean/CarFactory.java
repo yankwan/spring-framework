@@ -12,4 +12,8 @@ public class CarFactory implements FactoryBean {
 	public Class<?> getObjectType() {
 		return Car.class;
 	}
+
+	public void carFactoryInfo() {
+		System.out.println("This is CarFactory instance!");
+	}
 }
