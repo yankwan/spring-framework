@@ -86,10 +86,13 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 		this.registry = registry;
 
 		// Determine ResourceLoader to use.
+		// 如果BeanDefinitionRegistry实现类中有实现ResourceLoader接口的
+		// 直接用该实现类
 		if (this.registry instanceof ResourceLoader) {
 			this.resourceLoader = (ResourceLoader) this.registry;
 		}
 		else {
+		// 否则的话直接new一个PathMatchingResourcePatternResolver类
 			this.resourceLoader = new PathMatchingResourcePatternResolver();
 		}
 

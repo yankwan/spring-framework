@@ -323,6 +323,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 			}
 			// Send registration event.
 			// 发出Bean标签解析完成的通知事件
+			// 该方法是空实现方法, 可自己实现其逻辑, 用作于扩展
 			getReaderContext().fireComponentRegistered(new BeanComponentDefinition(bdHolder));
 		}
 	}
