@@ -337,6 +337,7 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				}
 
 				// Create bean instance.
+				// bean的实例化操作
 				// 根据指定的bean类型进行bean实例化操作。单例、原型等
 				if (mbd.isSingleton()) {
 					sharedInstance = getSingleton(beanName, () -> {
