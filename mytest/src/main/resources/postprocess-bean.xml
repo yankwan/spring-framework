@@ -6,4 +6,8 @@
 	<bean id = "testBeanPostProcessor" class = "com.spring.demo.postprocess.TestBeanPostProcessor" />
 
 	<bean id = "demoService" class="com.spring.demo.postprocess.DemoServiceImpl" />
+
+	<bean id = "nameBeanPostProcessor" class="com.spring.demo.postprocess.NameBeanPostProcessor">
+		<property name="name" value="world" />
+	</bean>
 </beans>
