@@ -340,6 +340,10 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport imp
 				// bean的实例化操作
 				// 根据指定的bean类型进行bean实例化操作。单例、原型等
 				if (mbd.isSingleton()) {
+					// getSingleton的第二个参数类型是函数式接口
+					//     --------> interface ObjectFactory<T>, 只能包含一个抽象方法, 可以包含默认方法
+					//     --------> 通过@FunctionalInterface进行注解
+					//     --------> 通过lambda表达式表示接口方法的实现
 					sharedInstance = getSingleton(beanName, () -> {
 						try {
 							return createBean(beanName, mbd, args);
